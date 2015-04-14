@@ -5,15 +5,69 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context=".MainActivity$PlaceholderFragment">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
+    <TextView
+        android:text="@string/hello_world"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <com.example.alekseyl.charrecognition.PaintView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:background="@android:color/black">
 
+        <com.example.alekseyl.charrecognition.PaintView
+            android:id="@+id/paint_view"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:background="@android:color/white"
+            >
         </com.example.alekseyl.charrecognition.PaintView>
+
+    </FrameLayout>
+
+
+    <Button
+        android:id="@+id/start_train_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start_train"/>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <LinearLayout
+            android:id="@+id/buttons_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+
+    <Button
+        android:id="@+id/stop_train_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stop_train"/>
+
+    <Button
+        android:id="@+id/recognize_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recognize"/>
+
+    <Button
+        android:id="@+id/clear_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/clear"/>
 
 </LinearLayout>
