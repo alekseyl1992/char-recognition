@@ -19,7 +19,14 @@ android {
     }
 }
 
+repositories {
+    maven {
+        url "http://neuroph.sourceforge.net/maven2"
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'org.neuroph:neuroph-core:2.8'
 }
