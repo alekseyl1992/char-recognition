@@ -12,8 +12,8 @@ import android.widget.LinearLayout;
 public class MainFragment extends Fragment {
 
     private PaintView paintView;
-    private Button startTrainButton;
-    private Button stopTrainButton;
+    private Button resetTrainingSetButton;
+    private Button trainButton;
     private Button clearButton;
 
     private LinearLayout buttonsLayout;
@@ -67,16 +67,16 @@ public class MainFragment extends Fragment {
             }
         });
 
-        startTrainButton = (Button) v.findViewById(R.id.start_train_button);
-        startTrainButton.setOnClickListener(new View.OnClickListener() {
+        resetTrainingSetButton = (Button) v.findViewById(R.id.reset_training_set_button);
+        resetTrainingSetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 paintView.clear();
             }
         });
 
-        stopTrainButton = (Button) v.findViewById(R.id.stop_train_button);
-        stopTrainButton.setOnClickListener(new View.OnClickListener() {
+        trainButton = (Button) v.findViewById(R.id.train_button);
+        trainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 paintView.clear();
@@ -88,12 +88,14 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 int side = PaintView.imageSideSize;
-                int pixels[] = paintView.getPixels();
+                boolean pixels[] = paintView.getPixels();
 
                 System.out.println("---------------------");
                 for (int i = 0; i < side; ++i) {
                     for (int j = 0; j < side; ++j) {
-                        System.out.print(pixels[i * side + j]);
+                        int px = pixels[i * side + j] ? 0 : 1;
+
+                        System.out.print(px);
                         System.out.print(" ");
                     }
                     

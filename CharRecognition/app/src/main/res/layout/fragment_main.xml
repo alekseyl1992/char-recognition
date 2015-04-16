@@ -31,10 +31,10 @@
 
 
     <Button
-        android:id="@+id/start_train_button"
+        android:id="@+id/reset_training_set_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/start_train"/>
+        android:text="@string/reset_training_set"/>
 
     <HorizontalScrollView
         android:layout_width="match_parent"
@@ -53,10 +53,10 @@
 
 
     <Button
-        android:id="@+id/stop_train_button"
+        android:id="@+id/train_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/stop_train"/>
+        android:text="@string/train"/>
 
     <Button
         android:id="@+id/recognize_button"
