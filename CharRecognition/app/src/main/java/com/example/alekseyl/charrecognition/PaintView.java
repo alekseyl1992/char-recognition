@@ -15,7 +15,7 @@ import android.view.View;
 public class PaintView extends View {
     private Paint paint;
     private Path path;
-    private static final float width = 48f;
+    private static final float width = 64f;
     private static final int color = Color.BLUE;
 
     public static int imageSideSize = 10;
@@ -76,53 +76,78 @@ public class PaintView extends View {
 
     public boolean[] getPixels() {
         buildDrawingCache();
-        Bitmap bitmap = this.getDrawingCache();
+        Bitmap sourceBitmap = this.getDrawingCache();
+        int sourceWidth = sourceBitmap.getWidth();
+        int sourceHeight = sourceBitmap.getHeight();
 
-        // crop
+        // get bounds
         RectF rect = new RectF();
         path.computeBounds(rect, true);
+        int croppedWidth = (int) rect.width();
+        int croppedHeight = (int) rect.height();
 
-        System.out.println(rect);
+        int croppedPixels[] = new int[croppedWidth * croppedHeight];
+        sourceBitmap.getPixels(croppedPixels, 0, croppedWidth,
+                (int) rect.left, (int) rect.top,
+                croppedWidth, croppedHeight);
 
-        int minXY = Math.min((int) rect.left, (int) rect.top);
-        if (minXY < 0)
-            minXY = 0;
-
-        int width = bitmap.getWidth();
-
-        int maxXY = Math.max((int) rect.right, (int) rect.bottom);
-        if (maxXY > width)
-            maxXY = width;
-
-        // center
-        minXY = (minXY + (maxXY - width)) / 2;
-
-        System.out.println("minXY: " + minXY);
-        System.out.println("maxXY: " + maxXY);
-
-        Bitmap croppedBitmap = Bitmap.createBitmap(bitmap,
-                minXY,
-                minXY,
-                maxXY - minXY,
-                maxXY - minXY);
-
-        // scale down
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(
-                croppedBitmap, imageSideSize, imageSideSize, true);
-
-        int size = imageSideSize * imageSideSize;
-        int pixels[] = new int[size];
-
-        // convert to vector
-        scaledBitmap.getPixels(pixels, 0, imageSideSize, 0, 0, imageSideSize, imageSideSize);
-
-        boolean biPixels[] = new boolean[pixels.length];
-
-        for (int i = 0; i < pixels.length; ++i) {
-            biPixels[i] = pixels[i] == -1;
+        // calc offset
+        int offsetX, offsetY;
+        if (croppedHeight >= croppedWidth) {
+            offsetX = (croppedHeight - croppedWidth) / 2;
+            offsetY = 0;
+        } else {
+            offsetX = 0;
+            offsetY = (croppedWidth - croppedHeight) / 2;
         }
 
-        return biPixels;
+        // center
+        int centeredSideSize = Math.max(croppedWidth, croppedHeight);
+        boolean centeredVector[] = new boolean[centeredSideSize * centeredSideSize];
+        for (int y = 0; y < croppedHeight; ++y) {
+            for (int x = 0; x < croppedWidth; ++x) {
+                boolean color = croppedPixels[y * croppedWidth + x] != -1;
+                int centeredX = offsetX + x;
+                int centeredY = offsetY + y;
+
+                centeredVector[centeredY * centeredSideSize + centeredX] = color;
+            }
+        }
+
+        // scale down
+        int scaleFactor = centeredSideSize / imageSideSize;
+
+        boolean resultVector[] = new boolean[imageSideSize * imageSideSize];
+        for (int y = 0; y < imageSideSize; ++y) {
+            for (int x = 0; x < imageSideSize; ++x) {
+                boolean avgColor = getAvgColor(
+                        centeredVector,
+                        centeredSideSize,
+                        x * scaleFactor,
+                        y * scaleFactor,
+                        scaleFactor);
+//                boolean avgColor = centeredVector[y * scaleFactor * centeredSideSize + x * scaleFactor];
+
+                resultVector[y * imageSideSize + x] = avgColor;
+            }
+        }
+
+        return resultVector;
+    }
+
+    private boolean getAvgColor(boolean matrix[], int sideSize, int fromX, int fromY, int probeSize) {
+        int pixelsCount = probeSize * probeSize;
+        int truePixelsCount = 0;
+
+        for (int y = fromY; y < fromY + probeSize; ++y) {
+            for (int x = fromX; x < fromX + probeSize; ++x) {
+                if (matrix[y * sideSize + x])
+                    ++truePixelsCount;
+            }
+        }
+
+        float percentage = ((float) truePixelsCount) / pixelsCount;
+        return percentage > 0.01;
     }
 
     public void clear() {

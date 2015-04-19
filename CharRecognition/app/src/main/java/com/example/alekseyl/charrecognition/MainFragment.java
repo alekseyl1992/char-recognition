@@ -93,7 +93,7 @@ public class MainFragment extends Fragment {
                 System.out.println("---------------------");
                 for (int i = 0; i < side; ++i) {
                     for (int j = 0; j < side; ++j) {
-                        int px = pixels[i * side + j] ? 0 : 1;
+                        int px = pixels[i * side + j] ? 1 : 0;
 
                         System.out.print(px);
                         System.out.print(" ");
