@@ -8,6 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import java.net.Inet4Address;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MainFragment extends Fragment {
 
@@ -20,7 +26,7 @@ public class MainFragment extends Fragment {
     private Button numberButtons[] = new Button[10];
     private Button recognizeButton;
 
-
+    private NNFacade nnFacade = new NNFacade();
 
     public MainFragment() {
     }
@@ -47,10 +53,16 @@ public class MainFragment extends Fragment {
         for (int i = 0; i < numberButtons.length; ++i) {
             Button button = new Button(context);
             button.setText(Integer.toString(i));
+            button.setTag(i);
 
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    int number = (int) v.getTag();
+                    boolean vector[] = paintView.getPixels();
+                    logImage();
+
+                    nnFacade.addToTrainingSet(number, vector);
                     paintView.clear();
                 }
             });
@@ -71,6 +83,7 @@ public class MainFragment extends Fragment {
         resetTrainingSetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                nnFacade.resetTrainingSet();
                 paintView.clear();
             }
         });
@@ -79,6 +92,7 @@ public class MainFragment extends Fragment {
         trainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                nnFacade.train();
                 paintView.clear();
             }
         });
@@ -87,22 +101,33 @@ public class MainFragment extends Fragment {
         recognizeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int side = PaintView.imageSideSize;
-                boolean pixels[] = paintView.getPixels();
+                boolean vector[] = paintView.getPixels();
+                logImage();
 
-                System.out.println("---------------------");
-                for (int i = 0; i < side; ++i) {
-                    for (int j = 0; j < side; ++j) {
-                        int px = pixels[i * side + j] ? 1 : 0;
-
-                        System.out.print(px);
-                        System.out.print(" ");
-                    }
-                    
-                    System.out.println();
-                }
-                System.out.println("---------------------");
+                int number = nnFacade.recognize(vector);
+                Toast.makeText(
+                        getActivity(),
+                        Integer.toString(number),
+                        Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void logImage() {
+        int side = PaintView.imageSideSize;
+        boolean pixels[] = paintView.getPixels();
+
+        System.out.println("---------------------");
+        for (int i = 0; i < side; ++i) {
+            for (int j = 0; j < side; ++j) {
+                int px = pixels[i * side + j] ? 1 : 0;
+
+                System.out.print(px);
+                System.out.print(" ");
+            }
+
+            System.out.println();
+        }
+        System.out.println("---------------------");
     }
 }
