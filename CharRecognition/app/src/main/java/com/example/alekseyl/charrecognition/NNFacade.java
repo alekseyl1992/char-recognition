@@ -15,14 +15,11 @@ import java.util.Map;
 
 public class NNFacade {
     private Map<Integer, List<boolean[]>> trainingSet = new HashMap<>();
-    public static final int NUMBERS_COUNT = 2;
+    public static final int NUMBERS_COUNT = 10;
     public static final int OUTPUT_SIZE = NUMBERS_COUNT;
 
     private static final int INPUT_SIZE = PaintView.imageSideSize * PaintView.imageSideSize;
-    private MultiLayerPerceptron nn = new MultiLayerPerceptron(
-            INPUT_SIZE,
-            INPUT_SIZE,
-            NUMBERS_COUNT);
+    private MultiLayerPerceptron nn;
 
     private static final String FILE_NAME = "nn.data";
 
@@ -40,7 +37,10 @@ public class NNFacade {
             trainingSet.put(i, new ArrayList<boolean[]>());
         }
 
-        nn.reset();
+        nn = new MultiLayerPerceptron(
+                INPUT_SIZE,
+                INPUT_SIZE,
+                NUMBERS_COUNT);
     }
 
     public void train() {
