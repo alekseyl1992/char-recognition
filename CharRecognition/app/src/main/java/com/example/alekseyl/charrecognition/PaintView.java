@@ -83,6 +83,8 @@ public class PaintView extends View {
         // get bounds
         RectF rect = new RectF();
         path.computeBounds(rect, true);
+        normalizeRect(rect, sourceWidth, sourceHeight);
+
         int croppedWidth = (int) rect.width();
         int croppedHeight = (int) rect.height();
 
@@ -126,8 +128,11 @@ public class PaintView extends View {
                         x * scaleFactor,
                         y * scaleFactor,
                         scaleFactor);
-//                boolean avgColor = centeredVector[y * scaleFactor * centeredSideSize + x * scaleFactor];
 
+                // sparse sampling
+                //boolean avgColor = centeredVector[y * scaleFactor * centeredSideSize + x * scaleFactor];
+
+                // avg sampling
                 resultVector[y * imageSideSize + x] = avgColor;
             }
         }
@@ -158,5 +163,19 @@ public class PaintView extends View {
     protected void redraw() {
         setDrawingCacheEnabled(false);
         invalidate();
+    }
+
+    private void normalizeRect(RectF rect, int width, int height) {
+        if (rect.left < 0)
+            rect.left = 0;
+
+        if (rect.top < 0)
+            rect.top = 0;
+
+        if (rect.width() > width)
+            rect.right = rect.left + width;
+
+        if (rect.height() > height)
+            rect.bottom = rect.top + height;
     }
 }

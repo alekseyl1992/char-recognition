@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -47,6 +48,8 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+
         View v = getView();
         assert v != null;
 
@@ -139,5 +142,21 @@ public class MainFragment extends Fragment {
             System.out.println();
         }
         System.out.println("---------------------");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch(id) {
+            case R.id.action_save:
+                nnFacade.save(getActivity());
+                return true;
+            case R.id.action_load:
+                nnFacade.load(getActivity());
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

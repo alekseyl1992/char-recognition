@@ -1,8 +1,12 @@
 package com.example.alekseyl.charrecognition;
 
+import android.content.Context;
+
+import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.nnet.MultiLayerPerceptron;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,6 +23,8 @@ public class NNFacade {
             INPUT_SIZE,
             INPUT_SIZE,
             NUMBERS_COUNT);
+
+    private static final String FILE_NAME = "nn.data";
 
     public NNFacade() {
         resetTrainingSet();
@@ -95,5 +101,15 @@ public class NNFacade {
         }
 
         return maxId;
+    }
+
+    public void save(Context context) {
+        File file = new File(context.getFilesDir(), FILE_NAME);
+        nn.save(file.getAbsolutePath());
+    }
+
+    public void load(Context context) {
+        File file = new File(context.getFilesDir(), FILE_NAME);
+        nn = (MultiLayerPerceptron) NeuralNetwork.createFromFile(file);
     }
 }
