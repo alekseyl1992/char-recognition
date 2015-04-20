@@ -7,7 +7,7 @@
     <string name="stop_train">Stop train</string>
     <string name="clear">Clear</string>
     <string name="train">Train</string>
-    <string name="reset_training_set">Reset training set</string>
+    <string name="reset_network">Reset network</string>
     <string name="result_placeholder">--</string>
     <string name="save">Save</string>
     <string name="load">Load</string>

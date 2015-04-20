@@ -15,7 +15,7 @@ import android.view.View;
 public class PaintView extends View {
     private Paint paint;
     private Path path;
-    private static final float width = 64f;
+    private static final float width = 48f;
     private static final int color = Color.BLUE;
 
     public static int imageSideSize = 10;
@@ -172,10 +172,10 @@ public class PaintView extends View {
         if (rect.top < 0)
             rect.top = 0;
 
-        if (rect.width() > width)
-            rect.right = rect.left + width;
+        if (rect.right > width)
+            rect.right = width;
 
-        if (rect.height() > height)
-            rect.bottom = rect.top + height;
+        if (rect.bottom > height)
+            rect.bottom = height;
     }
 }

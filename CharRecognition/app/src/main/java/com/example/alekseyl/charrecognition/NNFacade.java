@@ -24,7 +24,7 @@ public class NNFacade {
     private static final String FILE_NAME = "nn.data";
 
     public NNFacade() {
-        resetTrainingSet();
+        resetNetwork();
     }
 
     public void addToTrainingSet(int number, boolean[] vector) {
@@ -32,7 +32,7 @@ public class NNFacade {
         vectors.add(vector);
     }
 
-    public void resetTrainingSet() {
+    public void resetNetwork() {
         for (int i = 0; i < NUMBERS_COUNT; ++i) {
             trainingSet.put(i, new ArrayList<boolean[]>());
         }

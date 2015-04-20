@@ -12,12 +12,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.net.Inet4Address;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class MainFragment extends Fragment {
 
@@ -93,11 +87,11 @@ public class MainFragment extends Fragment {
             }
         });
 
-        resetTrainingSetButton = (Button) v.findViewById(R.id.reset_training_set_button);
+        resetTrainingSetButton = (Button) v.findViewById(R.id.reset_network_button);
         resetTrainingSetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nnFacade.resetTrainingSet();
+                nnFacade.resetNetwork();
                 paintView.clear();
             }
         });

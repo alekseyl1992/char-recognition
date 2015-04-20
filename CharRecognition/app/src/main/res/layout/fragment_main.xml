@@ -49,18 +49,18 @@
         android:text="@string/result_placeholder"/>
 
     <Button
-        android:id="@+id/reset_training_set_button"
+        android:id="@+id/reset_network_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/reset_training_set"/>
+        android:text="@string/reset_network"/>
 
     <Button
         android:id="@+id/train_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/reset_training_set_button"
-        android:layout_toEndOf="@id/reset_training_set_button"
+        android:layout_toRightOf="@id/reset_network_button"
+        android:layout_toEndOf="@id/reset_network_button"
         android:layout_alignParentBottom="true"
         android:text="@string/train"/>
 
@@ -68,7 +68,7 @@
         android:id="@+id/buttons_scroll_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/reset_training_set_button"
+        android:layout_above="@id/reset_network_button"
         >
 
         <LinearLayout
