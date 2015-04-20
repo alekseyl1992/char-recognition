@@ -7,7 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.Inet4Address;
@@ -17,6 +20,7 @@ import java.util.Map;
 
 public class MainFragment extends Fragment {
 
+    private FrameLayout frameLayout;
     private PaintView paintView;
     private Button resetTrainingSetButton;
     private Button trainButton;
@@ -25,6 +29,8 @@ public class MainFragment extends Fragment {
     private LinearLayout buttonsLayout;
     private Button numberButtons[] = new Button[10];
     private Button recognizeButton;
+
+    private TextView resultText;
 
     private NNFacade nnFacade = new NNFacade();
 
@@ -43,7 +49,11 @@ public class MainFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         View v = getView();
         assert v != null;
-        
+
+        frameLayout = (FrameLayout) v.findViewById(R.id.frame);
+        int frameSize = frameLayout.getLayoutParams().width;
+        frameLayout.setLayoutParams(new RelativeLayout.LayoutParams(frameSize, frameSize));
+
         paintView = (PaintView) v.findViewById(R.id.paint_view);
 
         Context context = getActivity();
@@ -76,6 +86,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 paintView.clear();
+                resultText.setText(R.string.result_placeholder);
             }
         });
 
@@ -105,12 +116,11 @@ public class MainFragment extends Fragment {
                 logImage();
 
                 int number = nnFacade.recognize(vector);
-                Toast.makeText(
-                        getActivity(),
-                        Integer.toString(number),
-                        Toast.LENGTH_LONG).show();
+                resultText.setText(Integer.toString(number));
             }
         });
+
+        resultText = (TextView) v.findViewById(R.id.result_text);
     }
 
     private void logImage() {

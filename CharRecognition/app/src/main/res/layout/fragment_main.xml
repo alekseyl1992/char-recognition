@@ -1,19 +1,14 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
     tools:context=".MainActivity$PlaceholderFragment">
 
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <FrameLayout
+        android:id="@+id/frame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="4dp"
@@ -21,7 +16,7 @@
 
         <com.example.alekseyl.charrecognition.PaintView
             android:id="@+id/paint_view"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="@android:color/white"
             >
@@ -29,16 +24,51 @@
 
     </FrameLayout>
 
+    <Button
+        android:id="@+id/recognize_button"
+        android:layout_below="@id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/recognize"/>
+
+    <Button
+        android:id="@+id/clear_button"
+        android:layout_below="@id/recognize_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/clear"/>
+
+    <TextView
+        android:id="@+id/result_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/clear_button"
+        android:textSize="50sp"
+        android:gravity="center"
+        style="@android:style/TextAppearance.Large"
+        android:text="@string/result_placeholder"/>
 
     <Button
         android:id="@+id/reset_training_set_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:text="@string/reset_training_set"/>
 
-    <HorizontalScrollView
+    <Button
+        android:id="@+id/train_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/reset_training_set_button"
+        android:layout_toEndOf="@id/reset_training_set_button"
+        android:layout_alignParentBottom="true"
+        android:text="@string/train"/>
+
+    <HorizontalScrollView
+        android:id="@+id/buttons_scroll_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/reset_training_set_button"
         >
 
         <LinearLayout
@@ -51,23 +81,4 @@
 
     </HorizontalScrollView>
 
-
-    <Button
-        android:id="@+id/train_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/train"/>
-
-    <Button
-        android:id="@+id/recognize_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/recognize"/>
-
-    <Button
-        android:id="@+id/clear_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/clear"/>
-
-</LinearLayout>
+</RelativeLayout>
